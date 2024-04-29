@@ -1,0 +1,50 @@
+{
+	"name": "OCLE-Machine",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+
+  "customizations": {
+    "vscode": {
+
+      "settings": {
+        "workbench.colorTheme": "Default Dark Modern",
+        "workbench.sideBar.location": "right",
+        "editor.renderWhitespace": "all",
+        "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+        "editor.fontLigatures": true,
+        "files.simpleDialog.enable": true,
+        "editor.cursorSmoothCaretAnimation": "on"
+      },
+
+      "extensions": [
+        "LucianIrsigler.nasm",
+        "ms-vscode.makefile-tools",
+        "ms-vscode.cpptools"
+      ]
+    }
+  },
+
+  "forwardPorts": [3000, 5000, 8000, 8080, 8081],
+
+	"runArgs": [
+	  "--cap-add=SYS_PTRACE", 
+	  "--cap-add=NET_ADMIN", 
+	  "--cap-add=NET_RAW", 
+	  "--device=/dev/net/tun"
+	],
+
+	"features": {
+        "ghcr.io/tailscale/codespace/tailscale": {}
+    },
+
+  "containerEnv": {
+    "TS_AUTHKEY": "${secrets.TS_AUTHKEY}"
+  },
+
+  "remoteUser": "vscode",
+
+  "postCreateCommand": "bash /home/vscode/tailscale-connect.sh"
+
+}
